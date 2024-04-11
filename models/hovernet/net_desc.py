@@ -139,8 +139,10 @@ class HoVerNet(Net):
             u1 = self.upsample2x(u2) + d[-4]
             u1 = branch_desc[2](u1)
 
-            u0 = branch_desc[3](u1)
-            out_dict[branch_name] = u0
+            # u0 = branch_desc[3](u1)
+            # out_dict[branch_name] = u0
+
+            out_dict[branch_name] = u1
 
         return out_dict
 
