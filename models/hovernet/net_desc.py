@@ -1,5 +1,6 @@
 import math
 from collections import OrderedDict
+import json
 
 import numpy as np
 import torch
@@ -129,6 +130,7 @@ class HoVerNet(Net):
             d[1] = crop_op(d[1], [36, 36])
 
         out_dict = OrderedDict()
+        out_features = OrderedDict()
         for branch_name, branch_desc in self.decoder.items():
             u3 = self.upsample2x(d[-1]) + d[-2]
             u3 = branch_desc[0](u3)
@@ -139,10 +141,13 @@ class HoVerNet(Net):
             u1 = self.upsample2x(u2) + d[-4]
             u1 = branch_desc[2](u1)
 
-            # u0 = branch_desc[3](u1)
-            # out_dict[branch_name] = u0
+            u0 = branch_desc[3](u1)
+            out_dict[branch_name] = u0
 
-            out_dict[branch_name] = u1
+            out_features[branch_name] = u1.tolist()
+
+        with open('/content/drive/MyDrive/Colab\ Notebooks/Lung/Project7/features.json', 'w') as file:
+            json.dump(out_features, file, indent=4)
 
         return out_dict
 
