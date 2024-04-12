@@ -146,10 +146,10 @@ class HoVerNet(Net):
 
             out_features[branch_name] = u1.tolist()
 
-        with open('/content/drive/MyDrive/Colab Notebooks/Lung/Project7/features.json', 'w') as file:
-            json.dump(out_features, file, indent=4)
+        # with open('/content/drive/MyDrive/Colab Notebooks/Lung/Project7/features.json', 'w') as file:
+        #     json.dump(out_features, file, indent=4)
 
-        return out_dict
+        return out_features
 
 
 ####
