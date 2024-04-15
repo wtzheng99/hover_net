@@ -121,6 +121,10 @@ class HoVerNet(Net):
             d3 = self.conv_bot(d3)
             d = [d0, d1, d2, d3]
 
+        print(f'img shape: {imgs.shape}')
+        print(f'd0 shape: {d0.shape}')
+
+
         # TODO: switch to `crop_to_shape` ?
         if self.mode == 'original':
             d[0] = crop_op(d[0], [184, 184])
