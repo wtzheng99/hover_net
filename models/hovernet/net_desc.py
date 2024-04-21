@@ -1,6 +1,5 @@
 import math
 from collections import OrderedDict
-import json
 
 import numpy as np
 import torch
@@ -121,10 +120,6 @@ class HoVerNet(Net):
             d3 = self.conv_bot(d3)
             d = [d0, d1, d2, d3]
 
-        print(f'img shape: {imgs.shape}')
-        print(f'd0 shape: {d0.shape}')
-
-
         # TODO: switch to `crop_to_shape` ?
         if self.mode == 'original':
             d[0] = crop_op(d[0], [184, 184])
@@ -134,7 +129,6 @@ class HoVerNet(Net):
             d[1] = crop_op(d[1], [36, 36])
 
         out_dict = OrderedDict()
-        # out_features = OrderedDict()
         for branch_name, branch_desc in self.decoder.items():
             u3 = self.upsample2x(d[-1]) + d[-2]
             u3 = branch_desc[0](u3)
@@ -145,16 +139,8 @@ class HoVerNet(Net):
             u1 = self.upsample2x(u2) + d[-4]
             u1 = branch_desc[2](u1)
 
-            print(f'U1 shape: {u1.shape}')
-
             u0 = branch_desc[3](u1)
             out_dict[branch_name] = u0
-            print(f'U0 shape: {u0.shape}')
-
-            # out_features[branch_name] = u1.tolist()
-
-        # with open('/content/drive/MyDrive/Colab Notebooks/Lung/Project7/features.json', 'w') as file:
-        #     json.dump(out_features, file, indent=4)
 
         return out_dict
 
@@ -164,4 +150,3 @@ def create_model(mode=None, **kwargs):
     if mode not in ['original', 'fast']:
         assert "Unknown Model Mode %s" % mode
     return HoVerNet(mode=mode, **kwargs)
-
