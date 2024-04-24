@@ -110,8 +110,8 @@ if __name__ == '__main__':
     sub_args = docopt(sub_cli_dict[sub_cmd], argv=sub_cmd_args, help=True)
     
     args.pop('--version')
-    gpu_list = args.pop('--gpu')
-    os.environ['CUDA_VISIBLE_DEVICES'] = gpu_list
+    # gpu_list = args.pop('--gpu')
+    # os.environ['CUDA_VISIBLE_DEVICES'] = gpu_list
 
     nr_gpus = torch.cuda.device_count()
     log_info('Detect #GPUS: %d' % nr_gpus)
